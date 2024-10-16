@@ -1,27 +1,48 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { sendFeedback } from '@/app/util/sendFeedback';
 
 const Feedback = () => {
   const [feedback, setFeedback] = useState<string>('');
   const [selectedEmoji, setSelectedEmoji] = useState<'good' | 'neutral' | 'bad' | null>(null);
   const [loading, setLoading] = useState(false);
-  const [response, setResponse] = useState('');
+  const [response, setResponse] = useState<string | null>(null);
 
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true)
-    const response = await sendFeedback(feedback)
-    setLoading(false)
-    setResponse(response?.sentiment)
+    setLoading(true);
+    const response = await sendFeedback(feedback);
+    setLoading(false);
+    setResponse(response?.sentiment);
     console.log({
       experience: selectedEmoji,
       response,
     });
+
+    setTimeout(() => {
+      setResponse(null);
+    }, 3000);
   };
 
+  useEffect(() => {
+    return () => {
+      setResponse(null);
+    };
+  }, []);
+
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full text-center">
+    <div className="flex flex-col justify-center items-center h-screen bg-gray-100">
+      {/* Notification Message */}
+      {response && (
+        <div
+          className={`fixed top-4 left-1/2 transform -translate-x-1/2 p-4 rounded-md shadow-lg text-white ${
+            response === 'positive' ? 'bg-green-600' : 'bg-red-600'
+          }`}
+        >
+          {response === 'positive' ? 'Thank you for your positive feedback!' : 'We appreciate your feedback!'}
+        </div>
+      )}
+
+      <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full text-center mt-16">
         <h2 className="text-2xl font-semibold mb-2 text-black">How was your experience?</h2>
         <p className="text-gray-600 mb-4">
           Your review will help us improve our product and make it user-friendly for more users.
@@ -66,9 +87,8 @@ const Feedback = () => {
             type="submit"
             className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition"
           >
-           {loading? 'Loading': 'Submit Review'}
+            {loading ? 'Loading...' : 'Submit Review'}
           </button>
-          {response && (<p className='text-green-900 text-sm'>{response}</p>)}
         </form>
       </div>
     </div>
