@@ -38,7 +38,7 @@ const Feedback = () => {
             response === 'positive' ? 'bg-green-600' : 'bg-red-600'
           }`}
         >
-          {response === 'positive' ? 'Thank you for your positive feedback!' : 'We appreciate your feedback!'}
+          {response === 'positive' ? 'Thank you for your positive feedback!' : 'We appreciate your comments and apologize for the dissatisfaction you encountered.'}
         </div>
       )}
 
