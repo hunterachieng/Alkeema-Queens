@@ -5,12 +5,14 @@ const Feedback = () => {
   const [feedback, setFeedback] = useState<string>('');
   const [selectedEmoji, setSelectedEmoji] = useState<'good' | 'neutral' | 'bad' | null>(null);
   const [loading, setLoading] = useState(false);
+  const [response, setResponse] = useState('');
 
   const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true)
     const response = await sendFeedback(feedback)
     setLoading(false)
+    setResponse(response?.sentiment)
     console.log({
       experience: selectedEmoji,
       response,
@@ -66,6 +68,7 @@ const Feedback = () => {
           >
            {loading? 'Loading': 'Submit Review'}
           </button>
+          {response && (<p className='text-green-900 text-sm'>{response}</p>)}
         </form>
       </div>
     </div>
