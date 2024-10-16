@@ -1,21 +1,23 @@
 import { useState } from 'react';
+import { sendFeedback } from '@/app/util/sendFeedback';
 
 const Feedback = () => {
   const [feedback, setFeedback] = useState<string>('');
   const [selectedEmoji, setSelectedEmoji] = useState<'good' | 'neutral' | 'bad' | null>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const response = await sendFeedback(feedback)
     console.log({
       experience: selectedEmoji,
-      feedback,
+      response,
     });
   };
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full text-center">
-        <h2 className="text-2xl font-semibold mb-2">How was your experience?</h2>
+        <h2 className="text-2xl font-semibold mb-2 text-black">How was your experience?</h2>
         <p className="text-gray-600 mb-4">
           Your review will help us improve our product and make it user-friendly for more users.
         </p>
@@ -52,7 +54,7 @@ const Feedback = () => {
             placeholder="Share feedback..."
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md mb-4"
+            className="w-full p-3 border border-gray-300 rounded-md mb-4 text-gray-600"
             rows={4}
           />
           <button
