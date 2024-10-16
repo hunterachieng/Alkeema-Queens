@@ -14,6 +14,6 @@ export const sendFeedback = async (review: string) => {
     const data = await response.json();
     return data;
   } catch (error) {
-    throw new Error((error as Error).message);
+    return (error as Error).message;
   }
 };
