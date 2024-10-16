@@ -13,6 +13,7 @@ const Feedback = () => {
     const response = await sendFeedback(feedback);
     setLoading(false);
     setResponse(response?.sentiment);
+    setFeedback('')
     console.log({
       experience: selectedEmoji,
       response,
