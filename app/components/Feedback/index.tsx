@@ -36,10 +36,10 @@ const Feedback = () => {
       {response && (
         <div
           className={`fixed top-4 left-1/2 transform -translate-x-1/2 p-4 rounded-md shadow-lg text-white ${
-            response === 'positive' ? 'bg-green-600' : 'bg-red-600'
+            response.toLowerCase() === 'positive' ? 'bg-green-600' : 'bg-red-600'
           }`}
         >
-          {response === 'positive' ? 'Thank you for your positive feedback!' : 'We appreciate your comments and apologize for the dissatisfaction you encountered.'}
+          {response.toLowerCase() === 'positive' ? 'Thank you for your positive feedback!' : 'We appreciate your comments and apologize for the dissatisfaction you encountered.'}
         </div>
       )}
 
